@@ -1,0 +1,238 @@
+{
+ "yaratiklar": [
+  {
+   "id": "diken_cocugu",
+   "ad": "Diken Çocuğu",
+   "bolge": "Kuzey Ormanı",
+   "kademe": 1,
+   "siluet": "böğürtlen sarmalından örülü kambur gövde, içeride iki kehribar göz",
+   "yad": "Diken Halkası",
+   "yet": "çevresine diken çemberi büyütür"
+  },
+  {
+   "id": "yosun_ayisi",
+   "ad": "Yosun Ayısı",
+   "bolge": "Kuzey Ormanı",
+   "kademe": 2,
+   "siluet": "sırtı yosun ve eğrelti kaplı ağır dört ayaklı",
+   "yad": "Toprak Sarsıntısı",
+   "yet": "yere vurur, koni hâlinde sersemletir"
+  },
+  {
+   "id": "sapkali",
+   "ad": "Şapkalı",
+   "bolge": "Mantar Kıyısı",
+   "kademe": 1,
+   "siluet": "geniş sarkık kızıl şapka, soluk kalın sap gövde",
+   "yad": "Spor Bulutu",
+   "yet": "yerinde kalıcı zehir bulutu"
+  },
+  {
+   "id": "kovan_muhafizi",
+   "ad": "Kovan Muhafızı",
+   "bolge": "Kuzey Ormanı",
+   "kademe": 2,
+   "siluet": "köpek boyunda zırhlı yaban arısı, kehribar-siyah karın",
+   "yad": "Sürü Çağrısı",
+   "yet": "üç sinek doğurur"
+  },
+  {
+   "id": "kor_solucan",
+   "ad": "Kör Solucan",
+   "bolge": "Ağaç Mağarası",
+   "kademe": 2,
+   "siluet": "gözsüz, halkalı, ağzı dişli çember",
+   "yad": "Yer Altı Dalışı",
+   "yet": "batar, oyuncunun altından çıkar"
+  },
+  {
+   "id": "tas_orumcek",
+   "ad": "Taş Örümcek",
+   "bolge": "Mağara",
+   "kademe": 2,
+   "siluet": "taş plakalı sekiz bacaklı",
+   "yad": "Ağ Atışı",
+   "yet": "yavaşlatan mermi"
+  },
+  {
+   "id": "parlak_kurtcuk",
+   "ad": "Parlayan Kurtçuk",
+   "bolge": "Ağaç Mağarası",
+   "kademe": 1,
+   "siluet": "soluk turkuaz ışıyan tombul larva",
+   "yad": "Kör Edici Parıltı",
+   "yet": "kısa körlük"
+  },
+  {
+   "id": "kaya_devi",
+   "ad": "Kaya Devi",
+   "bolge": "Dağ Yamacı",
+   "kademe": 3,
+   "siluet": "omuzları kaya bloğu, kolları uzun dev",
+   "yad": "Kaya Fırlatma",
+   "yet": "yay çizen taş"
+  },
+  {
+   "id": "ruzgar_sahini",
+   "ad": "Rüzgâr Şahini",
+   "bolge": "Rüzgâr Tepeleri",
+   "kademe": 3,
+   "siluet": "uzun kanatlı, sivri gagalı yırtıcı",
+   "yad": "Dalış",
+   "yet": "ekran dışından iner"
+  },
+  {
+   "id": "boynuzlu",
+   "ad": "Boynuzlu",
+   "bolge": "Dağ Yamacı",
+   "kademe": 2,
+   "siluet": "kıvrık ağır boynuzlu dağ koçu",
+   "yad": "Şarj",
+   "yet": "uzun mesafe koşu"
+  },
+  {
+   "id": "kemik_muhafiz",
+   "ad": "Kemik Muhafız",
+   "bolge": "Kayalık Adası",
+   "kademe": 3,
+   "siluet": "kule kalkanlı iskelet muhafız",
+   "yad": "Kalkan Duvarı",
+   "yet": "önden geleni keser"
+  },
+  {
+   "id": "lav_kabuklu",
+   "ad": "Lav Kabuklu",
+   "bolge": "Kayalık Adası",
+   "kademe": 3,
+   "siluet": "kabuğunun çatlaklarından lav akan yengeç",
+   "yad": "Kızgın Zırh",
+   "yet": "vurana hasar yansıtır"
+  },
+  {
+   "id": "golge_hirsizi",
+   "ad": "Gölge Hırsızı",
+   "bolge": "Zindan",
+   "kademe": 3,
+   "siluet": "ince, kapüşonlu, iki kısa bıçak",
+   "yad": "Sırt Bıçağı",
+   "yet": "arkana ışınlanır"
+  },
+  {
+   "id": "yankili_kafatasi",
+   "ad": "Yankılı Kafatası",
+   "bolge": "Zindan",
+   "kademe": 3,
+   "siluet": "havada süzülen çatlak kafatası",
+   "yad": "Lanet",
+   "yet": "aldığın hasarı artırır"
+  },
+  {
+   "id": "mercan_bekcisi",
+   "ad": "Mercan Bekçisi",
+   "bolge": "Deniz Dibi",
+   "kademe": 2,
+   "siluet": "mercan dallarından gövde",
+   "yad": "Diken Yağmuru",
+   "yet": "yukarıdan diken"
+  },
+  {
+   "id": "siyah_vatoz",
+   "ad": "Siyah Vatoz",
+   "bolge": "Deniz Dibi",
+   "kademe": 3,
+   "siluet": "geniş siyah kanatlı vatoz",
+   "yad": "Elektrik Akımı",
+   "yet": "çizgi şok"
+  },
+  {
+   "id": "bogulmus_kaptan",
+   "ad": "Boğulmuş Kaptan",
+   "bolge": "Deniz Dibi",
+   "kademe": 3,
+   "siluet": "yosunlu ceket, kırık şapka, çapa",
+   "yad": "Çapa Savurma",
+   "yet": "zincirli çapa"
+  },
+  {
+   "id": "sisli_sap",
+   "ad": "Sisli Sap",
+   "bolge": "Mantar Kıyısı",
+   "kademe": 2,
+   "siluet": "ince uzun sap, tepesinde sis kesesi",
+   "yad": "Sis Perdesi",
+   "yet": "görüşü kapatır"
+  },
+  {
+   "id": "mantarcik_suru",
+   "ad": "Mantarcık Sürüsü",
+   "bolge": "Mantar Kıyısı",
+   "kademe": 1,
+   "siluet": "avuç içi kadar koşan mantarlar",
+   "yad": "Patlama",
+   "yet": "üstüne gelip patlar"
+  },
+  {
+   "id": "firtina_kusu",
+   "ad": "Fırtına Kuşu",
+   "bolge": "Rüzgâr Tepeleri",
+   "kademe": 3,
+   "siluet": "tüyleri kıvılcımlı iri kuş",
+   "yad": "Yıldırım Çağrısı",
+   "yet": "yere iner"
+  },
+  {
+   "id": "toz_seytani",
+   "ad": "Toz Şeytanı",
+   "bolge": "Rüzgâr Tepeleri",
+   "kademe": 3,
+   "siluet": "dönen toz hunisi, içinde taşlar",
+   "yad": "Savurma",
+   "yet": "içine çeker"
+  },
+  {
+   "id": "yarik_gozcusu",
+   "ad": "Yarık Gözcüsü",
+   "bolge": "Yarık",
+   "kademe": 4,
+   "siluet": "havada duran göz kümesi",
+   "yad": "Işın",
+   "yet": "süpüren ışın"
+  },
+  {
+   "id": "kul_muhafizi",
+   "ad": "Kül Muhafızı",
+   "bolge": "Yarık",
+   "kademe": 4,
+   "siluet": "kül ve köz bağlamış zırhlı gövde",
+   "yad": "Kül Patlaması",
+   "yet": "alan novası"
+  }
+ ],
+ "ofs": {
+  "idle": [
+   0,
+   8
+  ],
+  "yurume": [
+   8,
+   14
+  ],
+  "atk": [
+   22,
+   20
+  ],
+  "hit": [
+   42,
+   4
+  ],
+  "yetenek": [
+   46,
+   22
+  ],
+  "die": [
+   68,
+   10
+  ]
+ },
+ "hucre": 96
+}

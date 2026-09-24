@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<title>Dragon Isles — Yaratık Galerisi</title>
+<style>
+:root{
+  --kagit:#14100f; --panel:#1e1917; --panel2:#272120; --cizgi:#3b302c;
+  --yazi:#e8ddd0; --soluk:#a2938a; --altin:#d9be72; --alev:#c4562c; --yesil:#7fa05a;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--kagit); color:var(--yazi); min-height:100vh;
+  font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  font-size:15px; line-height:1.55;
+  background-image:radial-gradient(1200px 600px at 50% -10%, #241c1a 0%, transparent 70%);
+}
+.sar{max-width:1180px;margin:0 auto;padding:28px 16px 64px}
+
+header{text-align:center;margin-bottom:28px}
+h1{
+  margin:0 0 6px; font-size:clamp(26px,5.2vw,40px); letter-spacing:.5px; font-weight:800;
+  color:var(--altin); text-shadow:0 2px 0 #000, 0 0 26px rgba(217,190,114,.22);
+}
+.alt{color:var(--soluk);font-size:14px;margin:0 auto;max-width:640px}
+.alt b{color:var(--yazi);font-weight:600}
+
+.duzen{display:grid;grid-template-columns:266px 1fr;gap:18px;align-items:start}
+
+/* ---- sol: yaratık listesi ---- */
+.liste{
+  background:var(--panel);border:1px solid var(--cizgi);border-radius:12px;padding:8px;
+  max-height:74vh;overflow-y:auto;
+}
+.liste h2{margin:6px 8px 10px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--soluk);font-weight:700}
+.kart{
+  display:flex;align-items:center;gap:10px;width:100%;text-align:left;cursor:pointer;
+  background:transparent;border:1px solid transparent;border-radius:9px;padding:6px 8px;
+  color:var(--yazi);font:inherit;margin-bottom:2px;
+}
+.kart:hover{background:var(--panel2);border-color:var(--cizgi)}
+.kart[aria-selected="true"]{background:#33231c;border-color:var(--alev)}
+.kart .ikon{
+  width:48px;height:48px;flex:0 0 48px;border-radius:7px;background:#100c0b no-repeat;
+  background-size:auto 48px; image-rendering:pixelated;
+}
+.kart .ad{font-weight:600;font-size:14px;line-height:1.25}
+.kart .yer{font-size:11.5px;color:var(--soluk)}
+
+/* ---- sağ: sahne ---- */
+.sahne{background:var(--panel);border:1px solid var(--cizgi);border-radius:12px;padding:18px}
+.baslik{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin-bottom:2px;min-width:0}
+.baslik h3{margin:0;font-size:24px;font-weight:800;color:var(--yazi)}
+.etiket{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--soluk);border:1px solid var(--cizgi);border-radius:999px;padding:2px 9px}
+.etiket.kad{color:var(--altin);border-color:#5a4a28}
+.siluet{color:var(--soluk);font-size:13.5px;margin:4px 0 14px;font-style:italic}
+
+.tuval{
+  display:flex;align-items:flex-end;justify-content:center;
+  background:
+    linear-gradient(#0f0c0b,#171211) padding-box,
+    linear-gradient(var(--cizgi),var(--cizgi)) border-box;
+  border:1px solid transparent;border-radius:10px;
+  padding:14px 0 0; min-height:300px; position:relative; overflow:hidden;
+}
+.tuval::after{
+  content:"";position:absolute;left:8%;right:8%;bottom:26px;height:14px;
+  background:radial-gradient(50% 50% at 50% 50%, rgba(0,0,0,.55), transparent 70%);
+}
+canvas{image-rendering:pixelated;display:block;position:relative;z-index:1;margin-bottom:18px;max-width:100%}
+
+.hareketler{display:flex;flex-wrap:wrap;gap:7px;margin:14px 0 0}
+.hb{
+  cursor:pointer;background:var(--panel2);border:1px solid var(--cizgi);color:var(--yazi);
+  border-radius:8px;padding:7px 13px;font:inherit;font-size:13.5px;font-weight:600;
+}
+.hb:hover{border-color:#6b5749}
+.hb[aria-pressed="true"]{background:#33231c;border-color:var(--alev);color:#ffd9c2}
+.hb .kare{display:block;font-size:10.5px;font-weight:400;color:var(--soluk);letter-spacing:.04em}
+.hb[aria-pressed="true"] .kare{color:#c9a892}
+
+.yetenek{
+  margin-top:14px;border-left:3px solid var(--altin);padding:8px 0 8px 12px;
+  background:linear-gradient(90deg,rgba(217,190,114,.07),transparent 70%);border-radius:0 8px 8px 0;
+}
+.yetenek .y1{font-weight:700;color:var(--altin);font-size:14px}
+.yetenek .y2{color:var(--soluk);font-size:13.5px}
+
+.arac{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:14px;padding-top:12px;border-top:1px solid var(--cizgi);font-size:13px;color:var(--soluk)}
+.arac label{display:flex;align-items:center;gap:7px;cursor:pointer}
+input[type=range]{width:110px;accent-color:var(--alev)}
+.sayac{font-variant-numeric:tabular-nums}
+
+footer{margin-top:34px;border-top:1px solid var(--cizgi);padding-top:18px;color:var(--soluk);font-size:13px}
+footer h4{margin:0 0 8px;color:var(--yazi);font-size:14px}
+footer ul{margin:0;padding-left:18px}
+footer li{margin-bottom:5px}
+footer code{background:var(--panel2);border:1px solid var(--cizgi);border-radius:4px;padding:1px 5px;font-size:12px}
+footer a{color:var(--altin)}
+
+@media (max-width:820px){
+  /* Telefonda liste ÜSTTE olursa sahne ekranın dışına düşüyor: açan kişi önce yirmi üç
+     satırlık bir liste görüyor, yaratığı değil. Sıra ters çevriliyor ve liste yandan
+     kayan bir şeride dönüşüyor - baş parmakla gezilen bir seçici. */
+  .duzen{grid-template-columns:1fr}
+  .sahne{order:1;padding:14px}
+  .liste{order:2;max-height:none;display:flex;gap:6px;overflow-x:auto;overflow-y:hidden;
+         padding:10px 8px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+  .liste h2{display:none}
+  .kart{flex:0 0 84px;flex-direction:column;gap:4px;text-align:center;margin-bottom:0;
+        padding:6px 4px;scroll-snap-align:center}
+  .kart .ikon{width:56px;height:56px;flex:0 0 56px;background-size:auto 56px}
+  .kart .ad{font-size:12px;line-height:1.2}
+  .kart .yer{display:none}
+  .kart br{display:none}
+  .baslik h3{font-size:20px}
+  .tuval{min-height:0}
+}
+</style>
+</head>
+<body>
+<div class="sar">
+
+<header>
+  <h1>Dragon Isles — Yaratık Galerisi</h1>
+  <p class="alt">Yapımı süren bir <b>piksel sanat rol yapma oyunu</b> için çizilen yaratıklar.
+  Bir yaratık seç, düğmelerle <b>hareketini</b> değiştir.
+  Hepsi 96×96 piksel, oyunun 32 renklik paletiyle — ekranda gördüğün her kare elle boyandı.</p>
+</header>
+
+<div class="duzen">
+  <nav class="liste" id="liste" aria-label="Yaratıklar"><h2>Yaratıklar</h2></nav>
+
+  <section class="sahne">
+    <div class="baslik">
+      <h3 id="ad">…</h3>
+      <span class="etiket" id="bolge"></span>
+      <span class="etiket kad" id="kademe"></span>
+    </div>
+    <p class="siluet" id="siluet"></p>
+
+    <div class="tuval"><canvas id="tuval" width="96" height="96"></canvas></div>
+
+    <div class="hareketler" id="hareketler"></div>
+
+    <div class="yetenek">
+      <div class="y1" id="yad"></div>
+      <div class="y2" id="yet"></div>
+    </div>
+
+    <div class="arac">
+      <label>Büyüklük <input type="range" id="olcek" min="2" max="6" step="1" value="4"></label>
+      <label>Hız <input type="range" id="hiz" min="3" max="20" step="1" value="12"></label>
+      <span class="sayac" id="sayac"></span>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <h4>Bunlar nasıl yapıldı?</h4>
+  <ul>
+    <li><b>Hareket:</b> <code>Wan 2.2 I2V</code> (görüntüden videoya) — Hugging Face üzerinde,
+      <code>lightx2v/Wan2.2-Lightning</code> 8 adımlık hızlandırıcıyla. Her yaratığın duruşundan
+      kısa bir video üretildi.</li>
+    <li><b>Temel görsel ve düzeltmeler:</b> <code>Qwen-Image-Edit</code>.</li>
+    <li><b>Piksele indirme:</b> kendi yazdığımız Python hattı — videodan kareler seçiliyor,
+      zemin kesiliyor, 96×96'ya oturtuluyor ve oyunun 32 renkli paletine, keskin kenarla
+      (yumuşak saydamlık yok) düşürülüyor.</li>
+  </ul>
+  <p id="ozet"></p>
+</footer>
+
+</div>
+
+<script>
+const MOTIONS = [
+  ["idle","Bekleme"],["yurume","Yürüme"],["atk","Saldırı"],
+  ["hit","Hasar"],["yetenek","Yetenek"],["die","Ölüm"]
+];
+// Tek seferlik oynayanlar: son karede durup kısa bekliyor, sonra baştan. Ölüm klibi ölü
+// bitiyor - onu döngüye sokmak yaratığı sürekli diriltiyor ve hareket okunmuyor.
+const BEKLE = {atk:.45, hit:.5, yetenek:.7, die:1.3};
+
+let VERI=null, sec=null, hareket="idle", kare=0, sonra=0, duruyor=0;
+const sheets={};
+const tuval=document.getElementById("tuval"), ctx=tuval.getContext("2d");
+const $=id=>document.getElementById(id);
+
+function yukle(id){
+  if(sheets[id]) return sheets[id];
+  const im=new Image(); im.decoding="sync"; im.src="img/"+id+".png";
+  sheets[id]=im; return im;
+}
+
+function listeKur(){
+  const n=$("liste");
+  VERI.yaratiklar.forEach((y,i)=>{
+    const b=document.createElement("button");
+    b.className="kart"; b.setAttribute("role","option"); b.dataset.id=y.id;
+    b.innerHTML='<span class="ikon"></span><span><span class="ad"></span><br>'+
+                '<span class="yer"></span></span>';
+    b.querySelector(".ad").textContent=y.ad;
+    b.querySelector(".yer").textContent=y.bolge+" · kademe "+y.kademe;
+    // Küçük resim: şeridin ilk (idle) karesi. 23 tane canvas döndürmek telefonu ısıtıyor,
+    // duran kare listeyi okumak için yeterli.
+    b.querySelector(".ikon").style.backgroundImage="url(img/"+y.id+".png)";
+    b.onclick=()=>{ seç(i); };
+    n.appendChild(b);
+  });
+}
+
+function hareketKur(){
+  const n=$("hareketler");
+  MOTIONS.forEach(([k,ad])=>{
+    const b=document.createElement("button");
+    b.className="hb"; b.type="button"; b.dataset.m=k;
+    b.innerHTML='<span></span><span class="kare"></span>';
+    b.children[0].textContent=ad;
+    b.children[1].textContent=VERI.ofs[k][1]+" kare";
+    b.onclick=()=>{ hareket=k; kare=0; duruyor=0; isaretle(); };
+    n.appendChild(b);
+  });
+}
+
+function isaretle(){
+  [...$("hareketler").children].forEach(b=>
+    b.setAttribute("aria-pressed", b.dataset.m===hareket ? "true":"false"));
+  [...$("liste").querySelectorAll(".kart")].forEach(b=>
+    b.setAttribute("aria-selected", b.dataset.id===sec.id ? "true":"false"));
+}
+
+function seç(i){
+  sec=VERI.yaratiklar[i]; kare=0; duruyor=0; yukle(sec.id);
+  $("ad").textContent=sec.ad;
+  $("bolge").textContent=sec.bolge;
+  $("kademe").textContent="kademe "+sec.kademe;
+  $("siluet").textContent=sec.siluet;
+  $("yad").textContent=sec.yad;
+  $("yet").textContent=sec.yet;
+  isaretle();
+  // Seçili kart görünür değilse seçim kayboluyor - telefonda şerit başta duruyor ve
+  // bağlantıdaki yaratık ekranın dışında kalıyor.
+  const k=$("liste").querySelector('[aria-selected="true"]');
+  if(k) k.scrollIntoView({block:"nearest", inline:"nearest"});
+  location.hash=sec.id;
+}
+
+function olcekle(){
+  // Kabın içine sığan en büyük tam kat. Tam kat şart: 96'nın katı olmayan bir genişlikte
+  // tarayıcı pikselleri eşit bölemiyor ve piksel sanatı kayıyor.
+  const kap=tuval.parentElement.clientWidth-4;
+  const tavan=Math.max(1, Math.floor(kap/96));
+  const s=Math.min(+$("olcek").value, tavan);
+  tuval.style.width=(96*s)+"px"; tuval.style.height=(96*s)+"px";
+  $("olcek").max=Math.max(2, tavan);
+}
+
+let sonAn=0;
+function dongu(an){
+  requestAnimationFrame(dongu);
+  if(!sec) return;
+  const fps=+$("hiz").value, [off,n]=VERI.ofs[hareket];
+  const im=sheets[sec.id];
+  if(!im || !im.complete || !im.naturalWidth){ return; }
+
+  if(duruyor){ if(an<duruyor) return; duruyor=0; kare=0; }
+  if(an-sonAn >= 1000/fps){
+    sonAn=an;
+    kare++;
+    if(kare>=n){
+      const b=BEKLE[hareket];
+      if(b){ kare=n-1; duruyor=an+b*1000; } else { kare=0; }
+    }
+  }
+  ctx.clearRect(0,0,96,96);
+  ctx.drawImage(im, (off+kare)*96, 0, 96, 96, 0, 0, 96, 96);
+  $("sayac").textContent="kare "+(kare+1)+" / "+n+" · "+fps+" fps";
+}
+
+fetch("veri.json").then(r=>r.json()).then(v=>{
+  VERI=v; listeKur(); hareketKur();
+  $("ozet").textContent=v.yaratiklar.length+" onaylı yaratık · yaratık başına 6 hareket, "+
+    "toplam 78 kare · "+(v.yaratiklar.length*78)+" elle boyanmış kare.";
+  $("olcek").oninput=olcekle; addEventListener("resize",olcekle); olcekle();
+  const h=location.hash.slice(1);
+  const i=Math.max(0, v.yaratiklar.findIndex(y=>y.id===h));
+  seç(i);
+  v.yaratiklar.forEach(y=>yukle(y.id));
+  requestAnimationFrame(dongu);
+});
+
+addEventListener("keydown",e=>{
+  if(!VERI) return;
+  const i=VERI.yaratiklar.findIndex(y=>y.id===sec.id);
+  if(e.key==="ArrowDown"||e.key==="ArrowRight") seç((i+1)%VERI.yaratiklar.length);
+  if(e.key==="ArrowUp"||e.key==="ArrowLeft") seç((i-1+VERI.yaratiklar.length)%VERI.yaratiklar.length);
+  const n=+e.key;
+  if(n>=1&&n<=6){ hareket=MOTIONS[n-1][0]; kare=0; duruyor=0; isaretle(); }
+});
+</script>
+</body>
+</html>
