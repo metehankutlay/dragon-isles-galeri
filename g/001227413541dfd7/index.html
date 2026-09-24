@@ -188,14 +188,14 @@ const MOTIONS = [
 // bitiyor - onu döngüye sokmak yaratığı sürekli diriltiyor ve hareket okunmuyor.
 const BEKLE = {atk:.45, hit:.5, yetenek:.7, die:1.3};
 
-let VERI=null, sec=null, hareket="idle", kare=0, sonra=0, duruyor=0;
+let VERI=null, DAMGA="", sec=null, hareket="idle", kare=0, sonra=0, duruyor=0;
 const sheets={};
 const tuval=document.getElementById("tuval"), ctx=tuval.getContext("2d");
 const $=id=>document.getElementById(id);
 
 function yukle(id){
   if(sheets[id]) return sheets[id];
-  const im=new Image(); im.decoding="sync"; im.src="img/"+id+".png";
+  const im=new Image(); im.decoding="sync"; im.src="img/"+id+".png"+DAMGA;
   sheets[id]=im; return im;
 }
 
@@ -210,7 +210,7 @@ function listeKur(){
     b.querySelector(".yer").textContent=y.bolge+" · kademe "+y.kademe;
     // Küçük resim: şeridin ilk (idle) karesi. 23 tane canvas döndürmek telefonu ısıtıyor,
     // duran kare listeyi okumak için yeterli.
-    b.querySelector(".ikon").style.backgroundImage="url(img/"+y.id+".png)";
+    b.querySelector(".ikon").style.backgroundImage="url(img/"+y.id+".png"+DAMGA+")";
     b.onclick=()=>{ seç(i); };
     n.appendChild(b);
   });
@@ -316,8 +316,11 @@ function dongu(an){
   $("sayac").textContent="kare "+(kare+1)+" / "+n+" · "+fps+" fps";
 }
 
-fetch("veri.json").then(r=>r.json()).then(v=>{
-  VERI=v; listeKur(); seritKur();
+// veri.json ÖNBELLEKSİZ çekiliyor: damganın kendisi buradan geliyor, o da önbellekten
+// gelirse yeni resimlere hiç ulaşılamaz. Sayfanın HTML'i eski kalsa bile bu istek taze
+// damgayı getirir ve resimler tazelenir.
+fetch("veri.json", {cache:"no-store"}).then(r=>r.json()).then(v=>{
+  VERI=v; DAMGA = v.surum ? "?s="+v.surum : ""; listeKur(); seritKur();
   $("ozet").textContent=v.yaratiklar.length+" onaylı yaratık · yaratık başına 6 hareket, "+
     "toplam 78 kare · "+(v.yaratiklar.length*78)+" elle boyanmış kare.";
   // **Telefonda 1:1 ile başla.** 2 kat, dar ekranda sanat pikselini 2x2 bloğa çeviriyor
