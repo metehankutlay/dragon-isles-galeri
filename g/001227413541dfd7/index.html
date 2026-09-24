@@ -33,7 +33,7 @@ h1{
 /* ---- sol: yaratık listesi ---- */
 .liste{
   background:var(--panel);border:1px solid var(--cizgi);border-radius:12px;padding:8px;
-  max-height:74vh;overflow-y:auto;
+  max-height:74vh;overflow-y:auto;position:relative;  /* offsetLeft/Top buraya göre */
 }
 .liste h2{margin:6px 8px 10px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--soluk);font-weight:700}
 .kart{
@@ -64,23 +64,27 @@ h1{
     linear-gradient(#0f0c0b,#171211) padding-box,
     linear-gradient(var(--cizgi),var(--cizgi)) border-box;
   border:1px solid transparent;border-radius:10px;
-  padding:14px 0 0; min-height:300px; position:relative; overflow:hidden;
+  padding:18px 0 0; min-height:210px; position:relative; overflow:hidden;
 }
 .tuval::after{
-  content:"";position:absolute;left:8%;right:8%;bottom:26px;height:14px;
+  content:"";position:absolute;left:22%;right:22%;bottom:22px;height:14px;
   background:radial-gradient(50% 50% at 50% 50%, rgba(0,0,0,.55), transparent 70%);
 }
 canvas{image-rendering:pixelated;display:block;position:relative;z-index:1;margin-bottom:18px;max-width:100%}
 
-.hareketler{display:flex;flex-wrap:wrap;gap:7px;margin:14px 0 0}
-.hb{
-  cursor:pointer;background:var(--panel2);border:1px solid var(--cizgi);color:var(--yazi);
-  border-radius:8px;padding:7px 13px;font:inherit;font-size:13.5px;font-weight:600;
+/* Oyun boyutunda (1:1) altı hareket birden - panodaki görünüm. Büyük tuval bir
+   hareketi incelemek için, bu şerit yaratığın tamamını görmek için. */
+.serit{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 0;justify-content:center}
+.serit figure{margin:0;text-align:center}
+.serit canvas{
+  image-rendering:pixelated;background:#100c0b;border:1px solid var(--cizgi);
+  border-radius:6px;display:block;width:96px;height:96px;
 }
-.hb:hover{border-color:#6b5749}
-.hb[aria-pressed="true"]{background:#33231c;border-color:var(--alev);color:#ffd9c2}
-.hb .kare{display:block;font-size:10.5px;font-weight:400;color:var(--soluk);letter-spacing:.04em}
-.hb[aria-pressed="true"] .kare{color:#c9a892}
+.serit figcaption{font-size:11px;color:var(--soluk);margin-top:5px;letter-spacing:.03em;line-height:1.35}
+.serit figcaption b{font-size:12.5px;font-weight:600;color:var(--yazi)}
+.serit figure.aktif figcaption b{color:#ffd9c2}
+.serit figure.aktif canvas{border-color:var(--alev)}
+
 
 .yetenek{
   margin-top:14px;border-left:3px solid var(--altin);padding:8px 0 8px 12px;
@@ -127,7 +131,7 @@ footer a{color:var(--altin)}
 <header>
   <h1>Dragon Isles — Yaratık Galerisi</h1>
   <p class="alt">Yapımı süren bir <b>piksel sanat rol yapma oyunu</b> için çizilen yaratıklar.
-  Bir yaratık seç, düğmelerle <b>hareketini</b> değiştir.
+  Bir yaratık seç; altı hareketi <b>oyundaki boyutta</b> yan yana görürsün, birine tıklayınca yukarıda büyür.
   Hepsi 96×96 piksel, oyunun 32 renklik paletiyle — ekranda gördüğün her kare elle boyandı.</p>
 </header>
 
@@ -144,7 +148,7 @@ footer a{color:var(--altin)}
 
     <div class="tuval"><canvas id="tuval" width="96" height="96"></canvas></div>
 
-    <div class="hareketler" id="hareketler"></div>
+    <div class="serit" id="serit" role="listbox" aria-label="Hareketler — oyundaki boyutta"></div>
 
     <div class="yetenek">
       <div class="y1" id="yad"></div>
@@ -152,7 +156,7 @@ footer a{color:var(--altin)}
     </div>
 
     <div class="arac">
-      <label>Büyüklük <input type="range" id="olcek" min="2" max="6" step="1" value="4"></label>
+      <label>Büyüklük <input type="range" id="olcek" min="1" max="6" step="1" value="2"></label>
       <label>Hız <input type="range" id="hiz" min="3" max="20" step="1" value="12"></label>
       <span class="sayac" id="sayac"></span>
     </div>
@@ -212,28 +216,34 @@ function listeKur(){
   });
 }
 
-function hareketKur(){
-  const n=$("hareketler");
+function seritKur(){
+  const n=$("serit");
   MOTIONS.forEach(([k,ad])=>{
-    const b=document.createElement("button");
-    b.className="hb"; b.type="button"; b.dataset.m=k;
-    b.innerHTML='<span></span><span class="kare"></span>';
-    b.children[0].textContent=ad;
-    b.children[1].textContent=VERI.ofs[k][1]+" kare";
-    b.onclick=()=>{ hareket=k; kare=0; duruyor=0; isaretle(); };
-    n.appendChild(b);
+    const f=document.createElement("figure"); f.dataset.m=k;
+    const c=document.createElement("canvas"); c.width=96; c.height=96;
+    const cap=document.createElement("figcaption");
+    cap.innerHTML='<b></b><br><span></span>';
+    cap.querySelector("b").textContent=ad;
+    cap.querySelector("span").textContent=VERI.ofs[k][1]+" kare";
+    f.append(c,cap); f.onclick=()=>{ hareket=k; kare=0; duruyor=0; isaretle(); };
+    f.style.cursor="pointer"; f.setAttribute("role","option");
+    n.appendChild(f);
   });
 }
 
 function isaretle(){
-  [...$("hareketler").children].forEach(b=>
-    b.setAttribute("aria-pressed", b.dataset.m===hareket ? "true":"false"));
   [...$("liste").querySelectorAll(".kart")].forEach(b=>
     b.setAttribute("aria-selected", b.dataset.id===sec.id ? "true":"false"));
+  [...$("serit").children].forEach(f=>{
+    const a=f.dataset.m===hareket;
+    f.classList.toggle("aktif", a); f.setAttribute("aria-selected", a?"true":"false");
+  });
 }
 
 function seç(i){
   sec=VERI.yaratiklar[i]; kare=0; duruyor=0; yukle(sec.id);
+  for(const k in sKare) delete sKare[k];
+  for(const k in sDur) delete sDur[k];
   $("ad").textContent=sec.ad;
   $("bolge").textContent=sec.bolge;
   $("kademe").textContent="kademe "+sec.kademe;
@@ -243,8 +253,16 @@ function seç(i){
   isaretle();
   // Seçili kart görünür değilse seçim kayboluyor - telefonda şerit başta duruyor ve
   // bağlantıdaki yaratık ekranın dışında kalıyor.
-  const k=$("liste").querySelector('[aria-selected="true"]');
-  if(k) k.scrollIntoView({block:"nearest", inline:"nearest"});
+  // scrollIntoView SAYFAYI kaydırıyor: telefonda şerit en altta, seçili kart sağda
+  // kalınca açılışta ekran şeride atlıyor ve yaratık görünmüyor. Kaydırılan şey listenin
+  // kendisi olmalı, belge değil.
+  const l=$("liste"), k=l.querySelector('[aria-selected="true"]');
+  if(k){
+    if(l.scrollWidth > l.clientWidth+4)
+      l.scrollLeft = k.offsetLeft - (l.clientWidth - k.offsetWidth)/2;
+    else
+      l.scrollTop = k.offsetTop - (l.clientHeight - k.offsetHeight)/2;
+  }
   location.hash=sec.id;
 }
 
@@ -258,7 +276,24 @@ function olcekle(){
   $("olcek").max=Math.max(2, tavan);
 }
 
+const sKare={}, sDur={};
 let sonAn=0;
+function seritCiz(an, im, fps){
+  [...$("serit").children].forEach(f=>{
+    const m=f.dataset.m, [off,n]=VERI.ofs[m], c=f.firstChild.getContext("2d");
+    if(sDur[m] && an<sDur[m]){ /* son karede bekliyor */ }
+    else {
+      if(sDur[m]){ sDur[m]=0; sKare[m]=0; }
+      else if(an-(sKare[m+"_an"]||0) >= 1000/fps){
+        sKare[m+"_an"]=an; sKare[m]=(sKare[m]||0)+1;
+        if(sKare[m]>=n){ const b=BEKLE[m]; if(b){ sKare[m]=n-1; sDur[m]=an+b*1000; } else sKare[m]=0; }
+      }
+    }
+    c.clearRect(0,0,96,96);
+    c.drawImage(im, (off+(sKare[m]||0))*96, 0, 96,96, 0,0, 96,96);
+  });
+}
+
 function dongu(an){
   requestAnimationFrame(dongu);
   if(!sec) return;
@@ -277,11 +312,12 @@ function dongu(an){
   }
   ctx.clearRect(0,0,96,96);
   ctx.drawImage(im, (off+kare)*96, 0, 96, 96, 0, 0, 96, 96);
+  seritCiz(an, im, fps);
   $("sayac").textContent="kare "+(kare+1)+" / "+n+" · "+fps+" fps";
 }
 
 fetch("veri.json").then(r=>r.json()).then(v=>{
-  VERI=v; listeKur(); hareketKur();
+  VERI=v; listeKur(); seritKur();
   $("ozet").textContent=v.yaratiklar.length+" onaylı yaratık · yaratık başına 6 hareket, "+
     "toplam 78 kare · "+(v.yaratiklar.length*78)+" elle boyanmış kare.";
   $("olcek").oninput=olcekle; addEventListener("resize",olcekle); olcekle();
