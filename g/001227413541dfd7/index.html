@@ -156,7 +156,7 @@ footer a{color:var(--altin)}
     </div>
 
     <div class="arac">
-      <label>Büyüklük <input type="range" id="olcek" min="1" max="6" step="1" value="2"></label>
+      <label>Büyüklük <input type="range" id="olcek" min="1" max="6" step="1" value="1"></label>
       <label>Hız <input type="range" id="hiz" min="3" max="20" step="1" value="12"></label>
       <span class="sayac" id="sayac"></span>
     </div>
@@ -320,7 +320,15 @@ fetch("veri.json").then(r=>r.json()).then(v=>{
   VERI=v; listeKur(); seritKur();
   $("ozet").textContent=v.yaratiklar.length+" onaylı yaratık · yaratık başına 6 hareket, "+
     "toplam 78 kare · "+(v.yaratiklar.length*78)+" elle boyanmış kare.";
-  $("olcek").oninput=olcekle; addEventListener("resize",olcekle); olcekle();
+  // **Telefonda 1:1 ile başla.** 2 kat, dar ekranda sanat pikselini 2x2 bloğa çeviriyor
+  // ve boyama kabalık olarak okunuyor - kurucunun "bozuk grafik" dediği şey bu, çizimin
+  // kendisi değil ölçek. Geniş ekranda 2 kat kalıyor: orada kutu zaten büyük, 96 px
+  // kaybolup gidiyor. Sürgüye dokunulduğu an bu varsayılan devre dışı.
+  $("olcek").value = innerWidth <= 820 ? 1 : 2;
+  let elle=false;
+  $("olcek").oninput=()=>{ elle=true; olcekle(); };
+  addEventListener("resize",()=>{ if(!elle) $("olcek").value = innerWidth<=820?1:2; olcekle(); });
+  olcekle();
   const h=location.hash.slice(1);
   const i=Math.max(0, v.yaratiklar.findIndex(y=>y.id===h));
   seç(i);
